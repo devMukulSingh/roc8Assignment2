@@ -11,6 +11,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        accent : "var(--accent)",
+        readBackground:"var(--read-background)",
+        filter:"var(--filter)",
       },
     },
   },
