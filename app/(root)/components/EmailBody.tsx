@@ -13,7 +13,7 @@ const EmailBody = () => {
     const dispatch = useAppDispatch();
     const { activeEmail,favorites } = useAppSelector( state => state);
     const { data:emailBody } = useSWR<IemailBody>(
-      `https://flipkart-email-mock.now.sh/?id=${activeEmail?.id}`,
+      [`https://flipkart-email-mock.now.sh/?id=${activeEmail?.id}`],
       fetcher,{
         onError(e){
             toast.error(`Something went wrong, please try again later`);
@@ -39,7 +39,7 @@ const EmailBody = () => {
     md:py-8  
     p-3
     overflow-auto 
-    max-h-[calc(100vh-8rem)] 
+    max-h-[calc(100vh-12rem)] 
     `}
     >
       <div className="  flex gap-3  sm:gap-5 md:gap-8 min-h-[20rem]  ">

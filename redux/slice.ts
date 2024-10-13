@@ -20,6 +20,9 @@ const initialState:IinitialState = {
             }
             state.activeEmail = action.payload;
         },
+        removeActivEmail : (state) => {
+            state.activeEmail = null;
+        },
         setReadEmail : (state,action ) => {
             if(state.readEmails?.find(readEmail => readEmail.id === action.payload.id)) return;
             state.readEmails?.push(action.payload);
@@ -44,4 +47,4 @@ const initialState:IinitialState = {
 
 export default rootReducer.reducer;
 
-export const { setActiveEmail,setFavoriteEmail,setReadEmail,setEmailsList } = rootReducer.actions;
+export const { setActiveEmail,setFavoriteEmail,setReadEmail,setEmailsList,removeActivEmail } = rootReducer.actions;

@@ -1,18 +1,13 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { setEmailsList } from '@/redux/slice';
+import { removeActivEmail, setActiveEmail, setEmailsList } from '@/redux/slice';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react'
 
 const Header = () => {
     const router = useRouter();
-    const  pathName = usePathname();
     const dispatch = useAppDispatch();
     const searchParams = useSearchParams().get("filter");
-    const  { emailsList,favorites,
-        readEmails,unreadEmails
-     } = useAppSelector( state => state);
-
     const navitems = [
       {
         title: "Unread",
@@ -37,6 +32,7 @@ const Header = () => {
             return;
         }
         router.push(nav?.link || "");
+        dispatch(removeActivEmail());
     }
   return (
     <div className="flex items-center gap-5 h-16 ">

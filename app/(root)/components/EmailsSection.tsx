@@ -1,24 +1,41 @@
 "use client";
 import { IemailData } from "@/app/lib/types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import EmailComp from "./EmailComp";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setEmailsList } from "@/redux/slice";
 import { useParams, useSearchParams } from "next/navigation";
+import useSWR from "swr";
+import { fetcher } from "@/app/lib/utils";
+import toast from "react-hot-toast";
+import Pagination from "./Pagination";
 
-type Props = {
-  emails: IemailData[];
+type TapiData = {
+    list : IemailData[]
 };
+type Props = {
+    pageNumber:number;
+}
 
-const EmailsSection = ({ emails }: Props) => {
+const EmailsSection = ({ pageNumber }:Props) => {
   const { activeEmail, emailsList, favorites, readEmails } = useAppSelector(
     (state) => state
   );
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
-  const filter = searchParams.get('filter');
+  const filter = searchParams.get("filter");
+  const { data: emails } = useSWR<TapiData>(
+    [`https://flipkart-email-mock.now.sh/?page=${pageNumber}`, pageNumber],
+    fetcher,
+    {
+      onError(e) {
+        toast.error(`Something went wrong, please try again later`);
+        console.log(e);
+      },
+    }
+  );
+
   useEffect(() => {
-    
     if (filter)
       switch (filter) {
         case "read":
@@ -26,20 +43,20 @@ const EmailsSection = ({ emails }: Props) => {
           break;
         case "unread":
           const readEmailsId = readEmails?.map((email) => email.id);
-          const unreadEmails = emails.filter((email) => {
+          const unreadEmails = emails?.list.filter((email) => {
             if (readEmailsId?.includes(email.id)) return false;
             else return true;
           });
           console.log(unreadEmails, "unreadEmails");
           dispatch(setEmailsList(unreadEmails));
-           break;
+          break;
         case "favorite":
           dispatch(setEmailsList(favorites));
-           break;
+          break;
         default:
-            null;
+          null;
       }
-    else dispatch(setEmailsList(emails));
+    else dispatch(setEmailsList(emails?.list));
   }, [searchParams]);
 
   return (
@@ -48,13 +65,19 @@ const EmailsSection = ({ emails }: Props) => {
       flex-col 
       gap-5  
       overflow-auto 
-      max-h-[calc(100vh-8rem)]
+      h-[calc(100vh-12rem)]
+      
+      max-h-[calc(100vh-12rem)]
       ${activeEmail ? "w-1/3" : "w-full"}
     `}
     >
-      {emailsList?.map((email: IemailData, index: number) => (
-        <EmailComp email={email} key={index} />
-      ))}
+      {(emailsList ? emailsList : emails?.list)?.map(
+        (email: IemailData, index: number) => (
+          <EmailComp email={email} key={index} />
+        )
+      )}
+
+
     </div>
   );
 };
