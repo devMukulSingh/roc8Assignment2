@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { IemailData } from "@/app/lib/types";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setActiveEmail, setReadEmail } from "@/redux/slice";
@@ -7,21 +7,19 @@ import React from "react";
 import Avatar from "./Avatar";
 
 type Props = {
-    email:IemailData
-}
+  email: IemailData;
+};
 
-const EmailComp = ({
-    email
-}:Props) => {
-    const dispatch = useAppDispatch();
-    const { activeEmail } = useAppSelector( state => state);
-    const handleEmailClick= () => {
-        dispatch(setActiveEmail(email));
-        dispatch(setReadEmail(email));
-    }
+const EmailComp = ({ email }: Props) => {
+  const dispatch = useAppDispatch();
+  const { activeEmail } = useAppSelector((state) => state);
+  const handleEmailClick = () => {
+    dispatch(setActiveEmail(email));
+    dispatch(setReadEmail(email));
+  };
   return (
     <div
-      onClick={ handleEmailClick}
+      onClick={handleEmailClick}
       className={`
     ${activeEmail?.id === email.id ? "border-accent" : ""}
     min-w-[18rem]
@@ -37,7 +35,7 @@ const EmailComp = ({
     cursor-pointer
     `}
     >
-     <Avatar letter={email.from.name[0].toUpperCase()}/>
+      <Avatar letter={email.from.name[0].toUpperCase()} />
       <section className="flex flex-col gap-2">
         <div>
           <h1>
@@ -54,11 +52,7 @@ const EmailComp = ({
         <h1>{email.short_description}</h1>
         <footer className="flex gap-5 ">
           <h1>{format(email.date, "dd/MM/yyyy hh:mm a")}</h1>
-          <button
-            className="text-accent"
-          >
-            Favorite
-          </button>
+          <button className="text-accent">Favorite</button>
         </footer>
       </section>
     </div>

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { IemailBody } from "@/app/lib/types";
 import { fetcher } from "@/app/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -9,19 +9,21 @@ import useSWR from "swr";
 import Avatar from "./Avatar";
 
 const EmailBody = () => {
-    const dispatch = useAppDispatch();
-    const { activeEmail,favorites } = useAppSelector( state => state);
-    const { data:emailBody } = useSWR<IemailBody>(
-      [`https://flipkart-email-mock.now.sh/?id=${activeEmail?.id}`],
-      fetcher,{
-        onError(e){
-            toast.error(`Something went wrong, please try again later`);
-            console.log(e);
-        },
-        revalidateOnFocus:false,
-      }
-    );
-    const isFavorite = favorites?.find( fav => fav.id===activeEmail?.id);    if(!activeEmail) return null;
+  const dispatch = useAppDispatch();
+  const { activeEmail, favorites } = useAppSelector((state) => state);
+  const { data: emailBody } = useSWR<IemailBody>(
+    [`https://flipkart-email-mock.now.sh/?id=${activeEmail?.id}`],
+    fetcher,
+    {
+      onError(e) {
+        toast.error(`Something went wrong, please try again later`);
+        console.log(e);
+      },
+      revalidateOnFocus: false,
+    },
+  );
+  const isFavorite = favorites?.find((fav) => fav.id === activeEmail?.id);
+  if (!activeEmail) return null;
   return (
     <div
       className={`

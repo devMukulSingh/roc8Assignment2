@@ -1,24 +1,24 @@
 "use client";
 import { IemailData } from "@/app/lib/types";
-import React, { useEffect,  } from "react";
+import React, { useEffect } from "react";
 import EmailComp from "./EmailComp";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setEmailsList } from "@/redux/slice";
-import {  useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/app/lib/utils";
 import toast from "react-hot-toast";
 
 type TapiData = {
-    list : IemailData[]
+  list: IemailData[];
 };
 type Props = {
-    pageNumber:number;
-}
+  pageNumber: number;
+};
 
-const EmailsSection = ({ pageNumber }:Props) => {
+const EmailsSection = ({ pageNumber }: Props) => {
   const { activeEmail, emailsList, favorites, readEmails } = useAppSelector(
-    (state) => state
+    (state) => state,
   );
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
@@ -31,7 +31,7 @@ const EmailsSection = ({ pageNumber }:Props) => {
         toast.error(`Something went wrong, please try again later`);
         console.log(e);
       },
-    }
+    },
   );
 
   useEffect(() => {
@@ -73,10 +73,8 @@ const EmailsSection = ({ pageNumber }:Props) => {
       {(emailsList ? emailsList : emails?.list)?.map(
         (email: IemailData, index: number) => (
           <EmailComp email={email} key={index} />
-        )
+        ),
       )}
-
-
     </div>
   );
 };

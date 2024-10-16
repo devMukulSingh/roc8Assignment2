@@ -1,13 +1,10 @@
-
-import React from 'react'
+import React from "react";
 
 type Props = {
-  letter:string
+  letter: string;
 };
 
-const Avatar = ({
-    letter
-} : Props ) => {
+const Avatar = ({ letter }: Props) => {
   return (
     <div
       className="
@@ -26,6 +23,6 @@ const Avatar = ({
       {letter}
     </div>
   );
-}
+};
 
-export default Avatar
+export default Avatar;

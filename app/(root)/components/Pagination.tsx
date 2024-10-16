@@ -16,7 +16,7 @@ const Pagination = ({ setPageNumber, pageNumber }: Props) => {
     mutate(
       (key) => true, // which cache keys are updated
       undefined, // update cache data to `undefined`
-      { revalidate: false } // do not revalidate
+      { revalidate: false }, // do not revalidate
     );
   };
   const pages = [1, 2, 3];
