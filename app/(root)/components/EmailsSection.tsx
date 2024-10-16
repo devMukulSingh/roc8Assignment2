@@ -1,14 +1,13 @@
 "use client";
 import { IemailData } from "@/app/lib/types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect,  } from "react";
 import EmailComp from "./EmailComp";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setEmailsList } from "@/redux/slice";
-import { useParams, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/app/lib/utils";
 import toast from "react-hot-toast";
-import Pagination from "./Pagination";
 
 type TapiData = {
     list : IemailData[]

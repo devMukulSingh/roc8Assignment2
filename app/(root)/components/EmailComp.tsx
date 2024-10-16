@@ -3,7 +3,6 @@ import { IemailData } from "@/app/lib/types";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setActiveEmail, setReadEmail } from "@/redux/slice";
 import { format } from "date-fns";
-import Image from "next/image";
 import React from "react";
 import Avatar from "./Avatar";
 

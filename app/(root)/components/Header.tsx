@@ -1,7 +1,7 @@
 'use client';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { removeActivEmail, setActiveEmail, setEmailsList } from '@/redux/slice';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useAppDispatch,  } from '@/redux/hook';
+import { removeActivEmail,   } from '@/redux/slice';
+import {  useRouter, useSearchParams } from 'next/navigation';
 import React from 'react'
 
 const Header = () => {

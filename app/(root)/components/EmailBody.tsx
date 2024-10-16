@@ -3,7 +3,6 @@ import { IemailBody } from "@/app/lib/types";
 import { fetcher } from "@/app/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setFavoriteEmail } from "@/redux/slice";
-import Image from "next/image";
 import React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
