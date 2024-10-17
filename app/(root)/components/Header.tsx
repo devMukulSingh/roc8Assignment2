@@ -1,37 +1,37 @@
 "use client";
 import { useAppDispatch } from "@/redux/hook";
 import { removeActivEmail } from "@/redux/slice";
-import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const Header = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const searchParams = useSearchParams().get("filter");
+  const searchParams = useSearchParams();
+  const filterParam = searchParams.get("filter");
+
   const navitems = [
     {
       title: "Unread",
-      isActive: searchParams === "unread",
-      link: "/?filter=unread",
+      isActive: filterParam === "Unread",
     },
     {
       title: "Read",
-      isActive: searchParams === "read",
-      link: "/?filter=read",
+      isActive: filterParam === "Read",
     },
     ,
     {
       title: "Favorite",
-      isActive: searchParams === "favorite",
-      link: "/?filter=favorite",
+      isActive: filterParam === "Favorite",
     },
   ];
   const handleClick = (nav: (typeof navitems)[0]) => {
+    let params = new URLSearchParams(window.location.search);
     if (nav?.isActive) {
-      router.push("/");
+      params.delete('filter')
+      router.push(`/?${params.toString()}`);
       return;
     }
-    router.push(nav?.link || "");
+    router.push(`/?filter=${nav?.title}`)
     dispatch(removeActivEmail());
   };
   return (

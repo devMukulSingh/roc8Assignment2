@@ -43,9 +43,7 @@ const rootReducer = createSlice({
       state.favorites?.push(action.payload);
     },
     setEmailsList: (state, action) => {
-      console.log("payload", action.payload);
       state.emailsList = action.payload;
-      console.log("emailList", state.emailsList);
     },
   },
 });

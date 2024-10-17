@@ -21,3 +21,7 @@ export interface IemailBody {
   id: string;
   body: string;
 }
+export type TapiData = {
+  list: IemailData[];
+  total:number
+};

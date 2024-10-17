@@ -1,35 +1,53 @@
-import { useAppDispatch } from "@/redux/hook";
+import { TapiData } from "@/app/lib/types";
+import { fetcher } from "@/app/lib/utils";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { removeActivEmail } from "@/redux/slice";
-import { mutate } from "swr";
+import { useRouter, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
+import useSWR, { mutate } from "swr";
 
-type Props = {
-  setPageNumber: (page: number) => void;
-  pageNumber: number;
-};
+type Props = {};
 
-const Pagination = ({ setPageNumber, pageNumber }: Props) => {
+const Pagination = ({}: Props) => {
+  const searchParams = useSearchParams();
+  const selectedPage = searchParams.get("page") || 1;
+  const filter = searchParams.get("filter");
+  const { emailsList } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { data: emails } = useSWR<TapiData>(
+    [`https://flipkart-email-mock.now.sh/?page=${selectedPage}`, selectedPage],
+    fetcher,
+    {
+      onError(e) {
+        toast.error(`Something went wrong, please try again later`);
+        console.log(e);
+      },
+    }
+  );
+  
+  const totalEmails = filter ? emailsList?.length : emails?.total;
+
+  const pages = Array.from({
+    length: Math.ceil((totalEmails || 1) / 10),
+  });
 
   const handlePageClick = (page: number) => {
     dispatch(removeActivEmail());
-    setPageNumber(page);
-    mutate(
-      (key) => true, // which cache keys are updated
-      undefined, // update cache data to `undefined`
-      { revalidate: false }, // do not revalidate
-    );
+    let params = new URLSearchParams(window.location.search);
+    params.set("page", page.toString());
+    router.push(`/?${params.toString()}`);
   };
-  const pages = [1, 2, 3];
   return (
     <div className="border p-2 rounded-md flex justify-center gap-5 bg-white  mt-auto ">
-      {pages.map((page, index) => (
+      {pages.map((_, index) => (
         <button
           className="rounded-full h-8 w-8 border bg-accent text-white disabled:opacity-50 hover:opacity-80"
-          disabled={pageNumber === page}
+          disabled={Number(selectedPage) === index + 1}
           key={index}
-          onClick={() => handlePageClick(page)}
+          onClick={() => handlePageClick(index + 1)}
         >
-          {page}
+          {index + 1}
         </button>
       ))}
     </div>

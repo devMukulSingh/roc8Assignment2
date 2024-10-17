@@ -3,7 +3,7 @@ import { IemailData } from "@/app/lib/types";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setActiveEmail, setReadEmail } from "@/redux/slice";
 import { format } from "date-fns";
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "./Avatar";
 
 type Props = {
@@ -12,20 +12,32 @@ type Props = {
 
 const EmailComp = ({ email }: Props) => {
   const dispatch = useAppDispatch();
-  const { activeEmail } = useAppSelector((state) => state);
+
+  const { activeEmail, readEmails } = useAppSelector((state) => state);
+  const isReadEmail = readEmails?.find(
+    (readEmail) => readEmail.id === email.id
+  );
+
   const handleEmailClick = () => {
     dispatch(setActiveEmail(email));
     dispatch(setReadEmail(email));
   };
+
+
   return (
     <div
+      style={
+        isReadEmail
+          ? { backgroundColor: "#f2f2f2" }
+          : { backgroundColor: "#ffffff" }
+      }
       onClick={handleEmailClick}
       className={`
     ${activeEmail?.id === email.id ? "border-accent" : ""}
+
     min-w-[18rem]
     flex
     gap-5 
-    bg-white 
     border-2 
     px-2
     md:px-5 
@@ -52,7 +64,6 @@ const EmailComp = ({ email }: Props) => {
         <h1>{email.short_description}</h1>
         <footer className="flex gap-5 ">
           <h1>{format(email.date, "dd/MM/yyyy hh:mm a")}</h1>
-          <button className="text-accent">Favorite</button>
         </footer>
       </section>
     </div>

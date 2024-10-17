@@ -15,10 +15,10 @@ export default function Home() {
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)] mt-5">
       <div className="flex gap-5">
-        <EmailsSection pageNumber={pageNumber} />
+        <EmailsSection />
         <EmailBody />
       </div>
-      <Pagination setPageNumber={setPageNumber} pageNumber={pageNumber} />
+      <Pagination  />
     </div>
   );
 }

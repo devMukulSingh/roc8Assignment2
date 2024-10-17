@@ -7,6 +7,8 @@ import React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import Avatar from "./Avatar";
+import { HTMLRenderer } from "@/app/lib/HTMLRenderer";
+import { format } from "date-fns";
 
 const EmailBody = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +22,7 @@ const EmailBody = () => {
         console.log(e);
       },
       revalidateOnFocus: false,
-    },
+    }
   );
   const isFavorite = favorites?.find((fav) => fav.id === activeEmail?.id);
   if (!activeEmail) return null;
@@ -57,8 +59,13 @@ const EmailBody = () => {
               {isFavorite ? "Remove favorite" : "Mark as favorite"}
             </button>
           </div>
-          <p className="text-sm">26/2/2020 10:11am</p>
-          <p className="text-sm break-words">{emailBody?.body}</p>
+          <p className="text-sm">
+            {format(activeEmail.date, "dd/MM/yyyy hh:mm a")}
+          </p>
+          <HTMLRenderer
+            className="text-sm break-words"
+            htmlString={emailBody?.body || ""}
+          />
         </section>
       </div>
     </div>
