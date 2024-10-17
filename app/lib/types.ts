@@ -23,5 +23,5 @@ export interface IemailBody {
 }
 export type TapiData = {
   list: IemailData[];
-  total:number
+  total: number;
 };

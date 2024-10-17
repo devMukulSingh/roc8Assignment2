@@ -9,15 +9,25 @@ import useSWR from "swr";
 import { fetcher } from "@/app/lib/utils";
 import toast from "react-hot-toast";
 
+
 type Props = {};
 
 const EmailsSection = ({}: Props) => {
-  
   const page = Number(useSearchParams().get("page")) || 1;
-    const { activeEmail, emailsList, favorites, readEmails } = useAppSelector(
-      (state) => state
-    );
+  const { activeEmail, emailsList, favorites, readEmails } = useAppSelector(
+    (state) => state,
+  );
   const { data: emails } = useSWR<TapiData>(
+    [`https://flipkart-email-mock.now.sh`],
+    fetcher,
+    {
+      onError(e) {
+        toast.error(`Something went wrong, please try again later`);
+        console.log(e);
+      },
+    },
+  );
+  const { data: emailsPaginated } = useSWR<TapiData>(
     [`https://flipkart-email-mock.now.sh/?page=${page}`, page],
     fetcher,
     {
@@ -27,12 +37,13 @@ const EmailsSection = ({}: Props) => {
       },
     }
   );
-
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const filter = searchParams.get("filter");
-  const paginatedMails = (filter ? emailsList?.slice( (page-1) * 10 , ((page-1) * 10 ) + 10 ) : emails?.list) || [];
-
+  const paginatedMails =
+    (filter
+      ? emailsList?.slice((page - 1) * 10, (page - 1) * 10 + 10)
+      : emailsPaginated?.list) || [];
 
   useEffect(() => {
     if (filter)
@@ -54,8 +65,7 @@ const EmailsSection = ({}: Props) => {
         default:
           null;
       }
-    else dispatch(setEmailsList(emails?.list));
-  }, [filter]);
+  }, [filter,page]);
 
   return (
     <div
@@ -69,13 +79,13 @@ const EmailsSection = ({}: Props) => {
       ${activeEmail ? "w-1/3" : "w-full"}
     `}
     >
-      {
-        paginatedMails.length > 0  ? paginatedMails?.map((email: IemailData, index: number) => (
-        <EmailComp email={email} key={index} />
-      ))
-      : 
-      <h1 className="text-center text-xl font-medium"> No Emails found</h1>
-    }
+      {paginatedMails.length > 0 ? (
+        paginatedMails?.map((email: IemailData, index: number) => (
+          <EmailComp email={email} key={index} />
+        ))
+      ) : (
+        <h1 className="text-center text-xl font-medium"> No Emails found</h1>
+      )}
     </div>
   );
 };

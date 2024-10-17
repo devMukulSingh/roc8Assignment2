@@ -18,7 +18,7 @@ export default function Home() {
         <EmailsSection />
         <EmailBody />
       </div>
-      <Pagination  />
+      <Pagination />
     </div>
   );
 }

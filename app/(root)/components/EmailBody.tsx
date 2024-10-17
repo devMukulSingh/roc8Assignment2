@@ -22,7 +22,7 @@ const EmailBody = () => {
         console.log(e);
       },
       revalidateOnFocus: false,
-    }
+    },
   );
   const isFavorite = favorites?.find((fav) => fav.id === activeEmail?.id);
   if (!activeEmail) return null;

@@ -15,16 +15,7 @@ const Pagination = ({}: Props) => {
   const { emailsList } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { data: emails } = useSWR<TapiData>(
-    [`https://flipkart-email-mock.now.sh/?page=${selectedPage}`, selectedPage],
-    fetcher,
-    {
-      onError(e) {
-        toast.error(`Something went wrong, please try again later`);
-        console.log(e);
-      },
-    }
-  );
+  const { data: emails } = useSWR<TapiData>([`https://flipkart-email-mock.now.sh`]  );
   
   const totalEmails = filter ? emailsList?.length : emails?.total;
 

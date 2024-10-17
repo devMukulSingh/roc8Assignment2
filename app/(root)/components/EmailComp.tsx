@@ -15,14 +15,13 @@ const EmailComp = ({ email }: Props) => {
 
   const { activeEmail, readEmails } = useAppSelector((state) => state);
   const isReadEmail = readEmails?.find(
-    (readEmail) => readEmail.id === email.id
+    (readEmail) => readEmail.id === email.id,
   );
 
   const handleEmailClick = () => {
     dispatch(setActiveEmail(email));
     dispatch(setReadEmail(email));
   };
-
 
   return (
     <div

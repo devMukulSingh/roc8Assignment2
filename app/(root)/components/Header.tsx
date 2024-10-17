@@ -27,11 +27,11 @@ const Header = () => {
   const handleClick = (nav: (typeof navitems)[0]) => {
     let params = new URLSearchParams(window.location.search);
     if (nav?.isActive) {
-      params.delete('filter')
+      params.delete("filter");
       router.push(`/?${params.toString()}`);
       return;
     }
-    router.push(`/?filter=${nav?.title}`)
+    router.push(`/?filter=${nav?.title}`);
     dispatch(removeActivEmail());
   };
   return (
