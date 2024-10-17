@@ -1,3 +1,4 @@
+'use client'
 import { TapiData } from "@/app/lib/types";
 import { fetcher } from "@/app/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -15,8 +16,10 @@ const Pagination = ({}: Props) => {
   const { emailsList } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { data: emails } = useSWR<TapiData>([`https://flipkart-email-mock.now.sh`]  );
-  
+  const { data: emails } = useSWR<TapiData>([
+    `https://flipkart-email-mock.now.sh`,
+  ]);
+
   const totalEmails = filter ? emailsList?.length : emails?.total;
 
   const pages = Array.from({

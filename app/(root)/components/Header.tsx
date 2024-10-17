@@ -1,7 +1,7 @@
 "use client";
 import { useAppDispatch } from "@/redux/hook";
 import { removeActivEmail } from "@/redux/slice";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {  useRouter, useSearchParams } from "next/navigation";
 
 const Header = () => {
   const router = useRouter();

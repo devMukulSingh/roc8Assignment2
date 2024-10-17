@@ -1,7 +1,5 @@
-"use client";
 import dynamic from "next/dynamic";
-import { useState } from "react";
-import Pagination from "./components/Pagination";
+const Pagination = dynamic( () => import("./components/Pagination"), {ssr:false} ) 
 const EmailBody = dynamic(() => import("./components/EmailBody"), {
   ssr: false,
 });
@@ -10,7 +8,6 @@ const EmailsSection = dynamic(() => import("./components/EmailsSection"), {
 });
 
 export default function Home() {
-  const [pageNumber, setPageNumber] = useState(1);
 
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)] mt-5">

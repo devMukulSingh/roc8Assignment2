@@ -9,7 +9,6 @@ import useSWR from "swr";
 import { fetcher } from "@/app/lib/utils";
 import toast from "react-hot-toast";
 
-
 type Props = {};
 
 const EmailsSection = ({}: Props) => {
@@ -31,11 +30,12 @@ const EmailsSection = ({}: Props) => {
     [`https://flipkart-email-mock.now.sh/?page=${page}`, page],
     fetcher,
     {
+      revalidateOnFocus:false,
       onError(e) {
         toast.error(`Something went wrong, please try again later`);
         console.log(e);
       },
-    }
+    },
   );
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
@@ -65,7 +65,7 @@ const EmailsSection = ({}: Props) => {
         default:
           null;
       }
-  }, [filter,page]);
+  }, [filter, page]);
 
   return (
     <div
